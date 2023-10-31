@@ -1,8 +1,11 @@
-// const Sequelize = require('sequelize')
-import { Sequelize } from "sequelize"
+const Sequelize = require("sequelize")
+const bcrypt = require("bcrypt")
+// import { Sequelize } from "sequelize"
+// const { bcrypt } = pkg
+const { DataTypes } = Sequelize
 
-const sequelize = new Sequelize('sequelize-learn','root', null, {
-  dialect: "mysql"
+const sequelize = new Sequelize("sequelize-learn", "root", null, {
+	dialect: "mysql",
 })
 
 // sequelize.authenticate()
@@ -17,16 +20,28 @@ const User = sequelize.define(
 	"user",
 	{
 		username: {
-			type: Sequelize.DataTypes.STRING,
+			type: DataTypes.STRING,
 			allowNull: false,
+			validate: {
+				len: [4, 20],
+			},
+			get() {
+				const rawValue = this.getDataValue("username")
+				return rawValue.toUpperCase()
+			},
 		},
 		password: {
-			type: Sequelize.DataTypes.STRING,
+			type: DataTypes.STRING,
 			allowNull: false,
+			set(value) {
+				const salt = bcrypt.genSaltSync(12)
+				const hash = bcrypt.hashSync(value, salt)
+				this.setDataValue("password", hash)
+			},
 		},
 		age: {
-			type: Sequelize.DataTypes.INTEGER,
-			defaultValue: 21,
+			type: DataTypes.INTEGER,
+			defaultValue: 28,
 		},
 	},
 	{
@@ -42,7 +57,7 @@ const User = sequelize.define(
 //     console.log("Erreur lors de la synchronisation !")
 //   })
 
-User.sync({ alter: true })
+User.sync()
 	.then(() => {
 		// const user = User.build({
 		// 	username: "Jonathan",
@@ -51,12 +66,14 @@ User.sync({ alter: true })
 		// })
 		// return user.save()
 		return User.create({
-			username: "Jonathan",
-			password: "1234",
-			age: 46,
+			username: "Amandine",
+			password: "password",
+			// age: 46,
 		})
 	})
 	.then((data) => {
+		console.log(data.username)
+		console.log(data.password)
 		console.log(data.toJSON())
 		console.log("Utilisateur ajouté à la bdd !")
 	})
