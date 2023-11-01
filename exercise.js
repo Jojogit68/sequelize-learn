@@ -28,7 +28,7 @@ const Student = sequelize.define(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		subsribe_to_socialmedia: {
+		subscribe_to_socialMedia: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			defaultValue: true,
@@ -50,7 +50,7 @@ Student.sync()
 		// 			name: "Kévin",
 		// 			school_year: 10,
 		// 			favorite_class: "Cooking",
-		// 			subsribe_to_socialmedia: false,
+		// 			subscribe_to_socialMedia: false,
 		// 		},
 		// 		{
 		// 			name: "Julie",
@@ -85,7 +85,7 @@ Student.sync()
 			attributes: ["name"],
 			where: Sequelize.or(
 				{ favorite_class: "Informatique" },
-				{ subsribe_to_socialmedia: false }
+				{ subscribe_to_socialMedia: false }
 			),
 		}).then((data) => {
 			data.forEach((element) => {

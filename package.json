@@ -1,7 +1,7 @@
 {
 	"name": "sequelize-orm-learning",
 	"version": "1.0.0",
-	"description": "Practrice Sequelize ORM",
+	"description": "Practice Sequelize ORM",
 	"main": "index.js",
 	"scripts": {
 		"start": "nodemon index.js",

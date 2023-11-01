@@ -66,7 +66,7 @@ User.sync()
 		// })
 		// return user.save()
 		return User.create({
-			username: "Amandine",
+			username: "François",
 			password: "password",
 			// age: 46,
 		})
